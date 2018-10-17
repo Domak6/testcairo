@@ -122,6 +122,11 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         }
         not_homepage:
 
+        // _youtube
+        if ('/youtube' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::youtubeSearch',  '_route' => '_youtube',);
+        }
+
         if ('/' === $pathinfo && !$allow) {
             throw new Symfony\Component\Routing\Exception\NoConfigurationException();
         }
