@@ -1,0 +1,129 @@
+<?php
+namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
+/**
+* @ORM\Entity
+* @ORM\Table(name="childrens")
+*/
+class Children {
+  /**
+   * @var int
+   * @ORM\Id
+   * @ORM\Column(type="integer",name="id", nullable=false)
+   * @ORM\GeneratedValue(strategy="AUTO")
+   */
+  protected $id;
+
+   /**
+   * @var string
+   * @ORM\Column(type="string", length=255, name="name", nullable=false)
+   */
+  protected $name;
+
+   /**
+   * @var string
+   * @ORM\Column(type="string", length=255, name="surname", nullable=false)
+   */
+  protected $surname;
+    /**
+    * @var UserGroup|null the group this user belongs (if any)
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Parents", inversedBy="childrens")
+    * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+    */
+    protected $parent;
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Children
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set surname
+     *
+     * @param string $surname
+     *
+     * @return Children
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    /**
+     * Get surname
+     *
+     * @return string
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \AppBundle\Entity\Parents $parent
+     *
+     * @return Children
+     */
+    public function setParent(\AppBundle\Entity\Parents $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \AppBundle\Entity\Parents
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Generates the magic method
+     *
+     */
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->getName();
+        // to show the id of the Category in the select
+        // return $this->id;
+    }
+}

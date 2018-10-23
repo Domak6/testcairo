@@ -1,0 +1,35 @@
+<?php
+namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
+/**
+* @ORM\Entity
+* @ORM\Table(name="parents")
+*/
+class Parents {
+    /**
+     * @var int
+     * @ORM\Id
+     * @ORM\Column(type="integer",name="id", nullable=false)
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+     /**
+     * @var string
+     * @ORM\Column(type="string", length=255, name="name", nullable=false)
+     */
+    protected $name;
+
+     /**
+     * @var string
+     * @ORM\Column(type="string", length=255, name="surname", nullable=false)
+     */
+    protected $surname;
+     /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Children", mappedBy="parent")
+     */
+    protected $childrens;
+}

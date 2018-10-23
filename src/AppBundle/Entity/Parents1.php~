@@ -1,0 +1,160 @@
+<?php
+namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
+/**
+* @ORM\Entity
+* @ORM\Table(name="parents")
+*/
+class Parents {
+    /**
+     * @var int
+     * @ORM\Id
+     * @ORM\Column(type="integer",name="id", nullable=false)
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+     /**
+     * @var string
+     * @ORM\Column(type="string", length=255, name="name", nullable=false)
+     */
+    protected $name;
+
+     /**
+     * @var string
+     * @ORM\Column(type="string", length=255, name="surname", nullable=false)
+     */
+    protected $surname;
+     /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Children", mappedBy="parent")
+     */
+    protected $childrens;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->childrens = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Parents
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set surname
+     *
+     * @param string $surname
+     *
+     * @return Parents
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    /**
+     * Get surname
+     *
+     * @return string
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * Add children
+     *
+     * @param \AppBundle\Entity\Children $children
+     *
+     * @return Parents
+     */
+    public function addChildren(\AppBundle\Entity\Children $children)
+    {
+        $this->childrens[] = $children;
+
+        return $this;
+    }
+
+    /**
+     * Remove children
+     *
+     * @param \AppBundle\Entity\Children $children
+     */
+    public function removeChildren(\AppBundle\Entity\Children $children)
+    {
+        $this->childrens->removeElement($children);
+    }
+
+    /**
+     * Set childrens
+     *
+     * @param \AppBundle\Entity\Children $children
+     *
+     * @return Parents
+     */
+    public function setChildrens($children)
+    {
+        $this->children = $children;
+           $children->getChildrens()->add($this);
+
+        return $this;
+    }
+
+    /**
+     * Get childrens
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChildrens()
+    {
+        return $this->childrens;
+    }
+
+    /**
+     * Generates the magic method
+     *
+     */
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->getChildrens();
+        // to show the id of the Category in the select
+        // return $this->id;
+    }
+}

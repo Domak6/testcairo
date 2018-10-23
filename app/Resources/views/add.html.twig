@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title>Encje</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+      <h2>Dodaj</h2>
+      <form action="/add" method="post">
+      	{{ form_errors(form) }}
+          {{ form_row(form.name) }}
+          {{ form_row(form.surname) }}
+          {{ form_row(form.childrens) }}
+          
+          {{ form_rest(form) }}
+          <input type="submit" value="Wyślij" class="btn btn-primary" />
+      </form>
+    </body>
+</html>

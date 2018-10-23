@@ -122,6 +122,16 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         }
         not_homepage:
 
+        // add
+        if ('/add' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::parentsAction',  '_route' => 'add',);
+        }
+
+        // data
+        if ('/data' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::index',  '_route' => 'data',);
+        }
+
         // _youtube
         if ('/youtube' === $pathinfo) {
             return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::youtubeSearch',  '_route' => '_youtube',);

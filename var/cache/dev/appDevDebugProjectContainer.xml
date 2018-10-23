@@ -17,6 +17,7 @@
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="AppBundle">AppBundle\AppBundle</parameter>
+      <parameter key="DoctrineFixturesBundle">Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -64,6 +65,11 @@
         <parameter key="path">C:\testcario\src\AppBundle</parameter>
         <parameter key="namespace">AppBundle</parameter>
       </parameter>
+      <parameter key="DoctrineFixturesBundle" type="collection">
+        <parameter key="parent">null</parameter>
+        <parameter key="path">C:\testcario\vendor\doctrine\doctrine-fixtures-bundle</parameter>
+        <parameter key="namespace">Doctrine\Bundle\FixturesBundle</parameter>
+      </parameter>
       <parameter key="DebugBundle" type="collection">
         <parameter key="parent">null</parameter>
         <parameter key="path">C:\testcario\vendor\symfony\symfony\src\Symfony\Bundle\DebugBundle</parameter>
@@ -96,7 +102,7 @@
     <parameter key="container.dumper.inline_class_loader">true</parameter>
     <parameter key="database_host">127.0.0.1</parameter>
     <parameter key="database_port">3306</parameter>
-    <parameter key="database_name">cario</parameter>
+    <parameter key="database_name">testcairo</parameter>
     <parameter key="database_user">root</parameter>
     <parameter key="database_password">Haslo123!</parameter>
     <parameter key="mailer_transport">smtp</parameter>
@@ -504,6 +510,9 @@
     <service id="AppBundle\Controller\DefaultController" class="AppBundle\Controller\DefaultController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
+    <service id="AppBundle\Form\ParentsForm" class="AppBundle\Form\ParentsForm" public="false" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
     <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
       <tag name="monolog.logger" channel="request"/>
       <argument type="service" id="kernel"/>
@@ -748,9 +757,11 @@
       <argument type="service" id="form.registry"/>
       <argument type="collection">
         <argument>Symfony\Component\Form\Extension\Core\Type</argument>
+        <argument>AppBundle\Form</argument>
         <argument>Symfony\Bridge\Doctrine\Form\Type</argument>
       </argument>
       <argument type="collection">
+        <argument>AppBundle\Form\ParentsForm</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\ChoiceType</argument>
         <argument>Symfony\Bridge\Doctrine\Form\Type\EntityType</argument>
@@ -963,7 +974,7 @@
       <argument type="service" id="form.resolved_type_factory"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension" public="false">
-      <argument type="service" id="service_locator.0blprly"/>
+      <argument type="service" id="service_locator.vm.z7rp"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.http_foundation"/>
@@ -3102,7 +3113,7 @@
         <argument key="driver">pdo_mysql</argument>
         <argument key="host">127.0.0.1</argument>
         <argument key="port">3306</argument>
-        <argument key="dbname">cario</argument>
+        <argument key="dbname">testcairo</argument>
         <argument key="user">root</argument>
         <argument key="password">Haslo123!</argument>
         <argument key="charset">UTF8</argument>
@@ -3252,7 +3263,9 @@
     </service>
     <service id="doctrine.orm.default_configuration" class="Doctrine\ORM\Configuration" public="false">
       <call method="setEntityNamespaces">
-        <argument type="collection"/>
+        <argument type="collection">
+          <argument key="AppBundle">AppBundle\Entity</argument>
+        </argument>
       </call>
       <call method="setMetadataCacheImpl">
         <argument type="service" id="doctrine_cache.providers.doctrine.orm.default_metadata_cache"/>
@@ -3294,7 +3307,18 @@
         <argument type="service" id="doctrine.orm.container_repository_factory"/>
       </call>
     </service>
-    <service id="doctrine.orm.default_metadata_driver" class="Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain" public="false"/>
+    <service id="doctrine.orm.default_annotation_metadata_driver" class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+      <argument type="service" id="annotations.cached_reader"/>
+      <argument type="collection">
+        <argument>C:\testcario\src\AppBundle\Entity</argument>
+      </argument>
+    </service>
+    <service id="doctrine.orm.default_metadata_driver" class="Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain" public="false">
+      <call method="addDriver">
+        <argument type="service" id="doctrine.orm.default_annotation_metadata_driver"/>
+        <argument>AppBundle\Entity</argument>
+      </call>
+    </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_metadata_cache" class="Doctrine\Common\Cache\ArrayCache" public="true">
       <call method="setNamespace">
         <argument>sf_orm_default_6fe23e38a44f97b0c7dc3518fb4cb75b9eb4101b7e517000e8c4a5c86c2b8c5e</argument>
@@ -3545,6 +3569,8 @@
     </service>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.AppBundle\Controller\DefaultController" class="AppBundle\Controller\DefaultController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.AppBundle\Controller\DefaultController" class="AppBundle\Controller\DefaultController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Component\Form\FormTypeInterface.0.AppBundle\Form\ParentsForm" class="AppBundle\Form\ParentsForm" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.AppBundle\Form\ParentsForm" class="AppBundle\Form\ParentsForm" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="service_locator.sr6ctxe" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
@@ -3555,9 +3581,10 @@
         <argument key="inline" type="service" id="fragment.renderer.inline"/>
       </argument>
     </service>
-    <service id="service_locator.0blprly" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.vm.z7rp" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="AppBundle\Form\ParentsForm" type="service" id="AppBundle\Form\ParentsForm"/>
         <argument key="Symfony\Bridge\Doctrine\Form\Type\EntityType" type="service" id="form.type.entity"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ChoiceType" type="service" id="form.type.choice"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="service" id="form.type.form"/>

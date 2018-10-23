@@ -29,14 +29,15 @@ class __TwigTemplate_00b3eafa71c0d0f039a3ad3a208b5e92b446f82a6cd5b6a2a3f2a1721b5
         <meta charset=\"UTF-8\" />
     </head>
     <body>
+      <div>
       <h3>Video List</h3>
      <ul>
      ";
-        // line 10
+        // line 11
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["youtube_videos"] ?? $this->getContext($context, "youtube_videos")));
         foreach ($context['_seq'] as $context["_key"] => $context["video"]) {
-            // line 11
+            // line 12
             echo "     <li>";
             echo twig_escape_filter($this->env, $this->getAttribute($context["video"], "title", array()), "html", null, true);
             echo " (";
@@ -47,16 +48,16 @@ class __TwigTemplate_00b3eafa71c0d0f039a3ad3a208b5e92b446f82a6cd5b6a2a3f2a1721b5
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['video'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 13
-        echo "     </ul>    
+        // line 14
+        echo "     </ul>
      <h3>Playlists</h3>
      <ul>
      ";
-        // line 16
+        // line 17
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["youtube_playlists"] ?? $this->getContext($context, "youtube_playlists")));
         foreach ($context['_seq'] as $context["_key"] => $context["playlist"]) {
-            // line 17
+            // line 18
             echo "     <li>";
             echo twig_escape_filter($this->env, $this->getAttribute($context["playlist"], "title", array()), "html", null, true);
             echo " (";
@@ -67,8 +68,9 @@ class __TwigTemplate_00b3eafa71c0d0f039a3ad3a208b5e92b446f82a6cd5b6a2a3f2a1721b5
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['playlist'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 19
+        // line 20
         echo "     </ul>
+   </div>
     </body>
 </html>
 ";
@@ -92,7 +94,7 @@ class __TwigTemplate_00b3eafa71c0d0f039a3ad3a208b5e92b446f82a6cd5b6a2a3f2a1721b5
 
     public function getDebugInfo()
     {
-        return array (  71 => 19,  60 => 17,  56 => 16,  51 => 13,  40 => 11,  36 => 10,  25 => 1,);
+        return array (  72 => 20,  61 => 18,  57 => 17,  52 => 14,  41 => 12,  37 => 11,  25 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -112,18 +114,20 @@ class __TwigTemplate_00b3eafa71c0d0f039a3ad3a208b5e92b446f82a6cd5b6a2a3f2a1721b5
         <meta charset=\"UTF-8\" />
     </head>
     <body>
+      <div>
       <h3>Video List</h3>
      <ul>
      {% for video in youtube_videos %}
      <li>{{ video.title }} ({{ video.video_id }})</li>
      {% endfor %}
-     </ul>    
+     </ul>
      <h3>Playlists</h3>
      <ul>
      {% for playlist in youtube_playlists %}
      <li>{{ playlist.title }} ({{ playlist.playlist_id }})</li>
      {% endfor %}
      </ul>
+   </div>
     </body>
 </html>
 ", "base.html.twig", "C:\\testcario\\app\\Resources\\views\\base.html.twig");
